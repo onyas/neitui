@@ -18,6 +18,13 @@ func TestCronJobs(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 }
 
+func TestListCronJobs(t *testing.T) {
+	router := router.SetupRouter()
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodGet, "/listJobInfos?limit=3&jobId=629568", nil)
+	router.ServeHTTP(w, req)
+	assert.Equal(t, http.StatusOK, w.Code)
+}
 func TestRegexp(t *testing.T) {
 	jobIdRex, _ := regexp.Compile(`^/t/([0-9]*)#reply[0-9]*`)
 	fmt.Println(jobIdRex.FindString("/t/625140#reply66"))

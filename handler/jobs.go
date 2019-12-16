@@ -101,7 +101,15 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 }
 
 func ListJobInfos(context *gin.Context) {
-	jobInfos := jobService.SearchJobInfos()
+	jobId, _ := strconv.Atoi(context.DefaultQuery("jobId", "0"))
+	limit, err := strconv.Atoi(context.DefaultQuery("limit", "10"))
+	if err != nil {
+		log.Println(err)
+	}
+	if limit == 0 {
+		limit = 10
+	}
+	jobInfos := jobService.SearchJobInfos(jobId, limit)
 	context.JSON(http.StatusOK, gin.H{
 		"jobInfos": jobInfos,
 	})
