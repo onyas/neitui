@@ -27,12 +27,12 @@ type JueJinUser struct {
 }
 
 type JueJinJobInfo struct {
-	Content  string    `json:"content"`
-	CreateAt time.Time `json:"createdAt"`
-	ObjectId string    `json:"objectId"`
-	//Pictures []string   `json:"pictures,omitempty"`
-	Uid  string     `json:"uid"`
-	User JueJinUser `json:"user"`
+	Content  string     `json:"content"`
+	CreateAt time.Time  `json:"createdAt"`
+	ObjectId string     `json:"objectId"`
+	Pictures []string   `json:"pictures,omitempty"`
+	Uid      string     `json:"uid"`
+	User     JueJinUser `json:"user"`
 }
 type JueJinData struct {
 	Total int             `json:"total"`
