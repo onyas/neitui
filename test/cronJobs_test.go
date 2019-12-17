@@ -21,7 +21,7 @@ func TestCronJobs(t *testing.T) {
 func TestListCronJobs(t *testing.T) {
 	router := router.SetupRouter()
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest(http.MethodGet, "/listJobInfos?limit=3&jobId=629568", nil)
+	req, _ := http.NewRequest(http.MethodGet, "/listJobInfos?limit=3&id=10", nil)
 	router.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
 }

@@ -8,13 +8,41 @@ type Spider struct {
 
 type JobInfo struct {
 	Id           int64     `xorm:"pk autoincr bigint(20)" form:"id" json:"id,omitempty"`
-	JobId        int64     `xorm:"bigint(20) unique(uindex_jobid)" form:"jobId" json:"jobId"`
-	Title        string    `xorm:"varchar(100)" form:"title" json:"title"`
+	JobId        string    `xorm:"varchar(50) unique(uindex_jobid)" form:"jobid" json:"jobid"`
+	Title        string    `xorm:"varchar(1000)" form:"title" json:"title"`
 	Url          string    `xorm:"varchar(100)" form:"url" json:"url,omitempty"`
 	Author       string    `xorm:"varchar(50)" form:"author" json:"author,omitempty"`
 	AuthorAvatar string    `xorm:"varchar(100)" form:"authoravatar" json:"authorAvatar,omitempty"`
 	DataFrom     string    `xorm:"varchar(50) unique(uindex_jobid)" form:"datafrom" json:"dataFrom,omitempty"`
-	UpdatedAt    time.Time `xorm:"updated" form:"updatedat" json:"updatedat"`
+	AttachMent   string    `xorm:"varchar(1000)" form:"attachMent" json:"attachMent"`
+	CreatedAt    time.Time `xorm:"created" form:"createdAt" json:"createdAt"`
+}
+
+type JueJinUser struct {
+	AvatarLarge    string `json:"avatarLarge"`
+	Company        string `json:"company"`
+	FollowersCount int    `json:"followersCount"`
+	JobTitle       string `json:"jobTitle"`
+	Username       string `json:"username"`
+}
+
+type JueJinJobInfo struct {
+	Content  string    `json:"content"`
+	CreateAt time.Time `json:"createdAt"`
+	ObjectId string    `json:"objectId"`
+	//Pictures []string   `json:"pictures,omitempty"`
+	Uid  string     `json:"uid"`
+	User JueJinUser `json:"user"`
+}
+type JueJinData struct {
+	Total int             `json:"total"`
+	List  []JueJinJobInfo `json:"list"`
+}
+
+type JueJinResponse struct {
+	S int        `json:"s"`
+	M string     `json:"m"`
+	D JueJinData `json:"d"`
 }
 
 type Result struct {

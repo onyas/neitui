@@ -9,9 +9,9 @@ import (
 type JobService struct {
 }
 
-func (service *JobService) SearchJobInfos(jobId, perPage int) []model.JobInfo {
+func (service *JobService) SearchJobInfos(id, perPage int) []model.JobInfo {
 	jobs := make([]model.JobInfo, 0)
-	err := DbEngine.Where(" job_id > ? ", jobId).Desc("job_id").Limit(perPage).Find(&jobs)
+	err := DbEngine.Where(" id < ? ", id).Desc("id").Limit(perPage).Find(&jobs)
 	if nil != err {
 		log.Println(err)
 	}
