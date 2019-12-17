@@ -33,7 +33,7 @@ type Spider struct {
 }
 
 func ListJobInfos(context *gin.Context) {
-	jobId, _ := strconv.Atoi(context.DefaultQuery("id", string(^uint(0))))
+	jobId, _ := strconv.Atoi(context.DefaultQuery("id", strconv.Itoa(int(^uint32(0)))))
 	limit, err := strconv.Atoi(context.DefaultQuery("limit", "10"))
 	if err != nil {
 		log.Println(err)

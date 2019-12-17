@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"regexp"
+	"strconv"
 	"testing"
 )
 
@@ -30,4 +31,9 @@ func TestRegexp(t *testing.T) {
 	fmt.Println(jobIdRex.FindString("/t/625140#reply66"))
 	jobIds := jobIdRex.FindStringSubmatch("/t/625140#reply66")[1]
 	fmt.Println(jobIds)
+}
+
+func TestInteger(t *testing.T) {
+	fmt.Println(int(^uint32(0)))
+	fmt.Println(strconv.Itoa(int(^uint32(0))))
 }
