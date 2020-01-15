@@ -50,3 +50,23 @@ type Result struct {
 	Message string      ` form:"message" json:"message"`
 	Data    interface{} `json:"data" `
 }
+
+//===================================================================
+
+type EleDuckResponse struct {
+	Posts []EleDuckPost `json:"posts"`
+}
+
+type EleDuckPost struct {
+	Id          string    `json:"id"`
+	Title       string    `json:"title"`
+	ModifiedAt  time.Time `json:"modified_at"`
+	PublishedAt time.Time `json:"published_at"`
+	User        UserInfo  `json:"user"`
+}
+
+type UserInfo struct {
+	Id        string `json:"id"`
+	AvatarUrl string `json:"avatar_url"`
+	NickName  string `json:"nickname"`
+}

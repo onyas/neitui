@@ -22,7 +22,7 @@ import (
 
 var group sync.WaitGroup
 
-var dataFrom = []string{"V2EX", "JueJin"}
+var dataFrom = []string{"V2EX", "JueJin", "EleDuck"}
 
 //var dataFrom = []string{"JueJin"}
 
@@ -100,12 +100,7 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 		return []map[string]interface{}{}
 	}
 	defer res.Body.Close()
-	////just for test
-	//html, err := ioutil.ReadAll(res.Body)
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//fmt.Println(string(html))
+
 	document, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
 		fmt.Println("抓取" + spider.DataType + "失败")
@@ -120,7 +115,7 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 		title := selection.Find(".item_title").Text()
 		author := selection.Find(".topic_info a").First().Text()
 		fmt.Println(authorAvatar + " " + url + " " + title + " " + author + " " + jobId)
-		allData = append(allData, map[string]interface{}{"authorAvatar": authorAvatar, "title": title, "url": url, "author": author, "jobId": jobId, "dataFrom": "V2EX"})
+		allData = append(allData, map[string]interface{}{"authorAvatar": authorAvatar, "title": title, "url": "https://v2ex.com" + url, "author": author, "jobId": jobId, "dataFrom": "V2EX"})
 	})
 	return allData
 }
@@ -128,7 +123,7 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 func (spider Spider) GetJueJin() []map[string]interface{} {
 	req, err := http.NewRequest("GET", "https://short-msg-ms.juejin.im/v1/pinList/topic?uid=&device_id=&token=&src=web&topicId=5abb61e1092dcb4620ca3322&page=0&pageSize=20&sortType=rank", nil)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 	req.Header.Set("Connection", "keep-alive")
 	req.Header.Set("Origin", "https://juejin.im")
@@ -144,20 +139,18 @@ func (spider Spider) GetJueJin() []map[string]interface{} {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Println(err)
-		return nil
+		log.Fatal(err)
 	}
-	//log.Println(string(body))
+
 	var jobInfos model.JueJinResponse
 	if err := json.Unmarshal(body, &jobInfos); err != nil {
-		log.Println(err)
-		return nil
+		log.Fatal(err)
 	}
 
 	var allData []map[string]interface{}
@@ -170,7 +163,49 @@ func (spider Spider) GetJueJin() []map[string]interface{} {
 	return allData
 }
 
+func (spider Spider) GetEleDuck() []map[string]interface{} {
+	req, err := http.NewRequest("GET", "https://svc.eleduck.com/api/v1/posts?category=5&tags[]=44&tags[]=10&page=1", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Connection", "keep-alive")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Origin", "https://eleduck.com")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36")
+	req.Header.Set("Dnt", "1")
+	req.Header.Set("Sec-Fetch-Site", "same-site")
+	req.Header.Set("Sec-Fetch-Mode", "cors")
+	req.Header.Set("Referer", "https://eleduck.com/?category=5&tags=44_10")
+	req.Header.Set("Accept-Encoding", "gzip, deflate, br")
+	req.Header.Set("Accept-Language", "zh-CN,zh;q=0.9,it;q=0.8,en;q=0.7")
+	req.Header.Set("If-None-Match", "W/\"29e00361915d0f9368e9eb1c01e80f3c\"")
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var jobInfos model.EleDuckResponse
+	if err := json.Unmarshal(body, &jobInfos); err != nil {
+		log.Fatal(err)
+	}
+
+	var allData []map[string]interface{}
+	for _, jobInfo := range jobInfos.Posts {
+		allData = append(allData, map[string]interface{}{"authorAvatar": jobInfo.User.AvatarUrl, "title": strings.ReplaceAll(jobInfo.Title, "0x00", ""),
+			"url": "https://eleduck.com/posts/" + jobInfo.Id, "author": jobInfo.User.NickName, "createdAt": jobInfo.PublishedAt,
+			"jobId": jobInfo.Id, "dataFrom": "EleDuck"})
+	}
+	return allData
+}
+
 func randomIpAddress() string {
 	r := rand.Intn(254)
-	return fmt.Sprintf("211.161.244.%d", r)
+	return fmt.Sprintf("207.163.226.%d", r)
 }
