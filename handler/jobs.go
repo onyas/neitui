@@ -12,6 +12,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -51,20 +52,32 @@ func ListJobInfos(context *gin.Context) {
 }
 
 func CronJobs(context *gin.Context) {
-	fmt.Println("开始抓取" + strconv.Itoa(len(dataFrom)) + "种数据类型")
-	group.Add(len(dataFrom))
-	var spider Spider
-	for _, value := range dataFrom {
-		fmt.Println("开始抓取" + value)
-		spider = Spider{DataType: value}
-		go ExecGetData(spider)
+	httpAuth := os.Getenv("HTTP_AUTH")
+	if httpAuth == "" {
+		log.Fatal("$HTTP_AUTH must be set")
 	}
-	group.Wait()
-	fmt.Print("完成抓取")
+	password := context.Query("password")
+	if httpAuth != password {
+		context.JSON(http.StatusForbidden, gin.H{
+			"message": "Auth fail",
+		})
+	} else {
+		fmt.Println("开始抓取" + strconv.Itoa(len(dataFrom)) + "种数据类型")
+		group.Add(len(dataFrom))
+		var spider Spider
+		for _, value := range dataFrom {
+			fmt.Println("开始抓取" + value)
+			spider = Spider{DataType: value}
+			go ExecGetData(spider)
+		}
+		group.Wait()
+		fmt.Print("完成抓取")
 
-	context.JSON(http.StatusOK, gin.H{
-		"message": "fetch success",
-	})
+		context.JSON(http.StatusOK, gin.H{
+			"message": "fetch success",
+		})
+	}
+
 }
 
 func ExecGetData(spider Spider) {
