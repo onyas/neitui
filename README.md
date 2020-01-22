@@ -1,19 +1,19 @@
-# neitui
-this is the API for neitui
+# 内推我
 
+后端用golang抓取多个网站的内推信息，可能对找工作的你有所帮助
+
+#### 本地运行如何运行
 ```
-go run main.go
-
-or
-
 go build -o bin/neitui -v .
 heroku local
 ```
 
-heroku config:set DSNAME=postgres://postgres:root@127.0.0.1:5432/chat?sslmode=disable
-
-list all the config
+#### 查看heroku已有的变量配置
 ```shell script
 heroku addons:create heroku-postgresql:hobby-dev
 heroku config
+```
+#### 发布
+```shell script
+git push heroku master
 ```
