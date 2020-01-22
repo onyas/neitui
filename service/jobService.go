@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/mitchellh/mapstructure"
-	"github.com/onyas/geekNews/model"
+	"github.com/onyas/neitui/model"
 	"log"
 )
 

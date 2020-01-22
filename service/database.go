@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/go-xorm/xorm"
 	_ "github.com/lib/pq"
-	"github.com/onyas/geekNews/model"
+	"github.com/onyas/neitui/model"
 	"log"
 	"os"
 )

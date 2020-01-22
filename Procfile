@@ -1,1 +1,1 @@
-web: bin/geekNews
+web: bin/neitui

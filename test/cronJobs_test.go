@@ -2,7 +2,7 @@ package test
 
 import (
 	"fmt"
-	"github.com/onyas/geekNews/router"
+	"github.com/onyas/neitui/router"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"

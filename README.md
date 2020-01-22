@@ -1,4 +1,4 @@
-# geekNews
+# neitui
 this is the API for geekNews
 
 ```

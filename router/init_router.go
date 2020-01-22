@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/onyas/geekNews/handler"
+	"github.com/onyas/neitui/handler"
 	"net/http"
 )
 

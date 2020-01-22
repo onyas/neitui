@@ -2,7 +2,7 @@ package main
 
 import (
 	_ "github.com/heroku/x/hmetrics/onload"
-	"github.com/onyas/geekNews/router"
+	"github.com/onyas/neitui/router"
 	"log"
 	"os"
 )
