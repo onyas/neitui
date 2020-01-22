@@ -117,7 +117,6 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 		jobId := jobIdRex.FindStringSubmatch(url)[1]
 		title := selection.Find(".item_title").Text()
 		author := selection.Find(".topic_info a").First().Text()
-		fmt.Println(authorAvatar + " " + url + " " + title + " " + author + " " + jobId)
 		allData = append(allData, map[string]interface{}{"authorAvatar": authorAvatar, "title": title, "url": "https://v2ex.com" + url, "author": author, "jobId": jobId, "dataFrom": "V2EX"})
 	})
 	return allData
@@ -126,7 +125,7 @@ func (spider Spider) GetV2EX() []map[string]interface{} {
 func (spider Spider) GetJueJin() []map[string]interface{} {
 	req, err := http.NewRequest("GET", "https://short-msg-ms.juejin.im/v1/pinList/topic?uid=&device_id=&token=&src=web&topicId=5abb61e1092dcb4620ca3322&page=0&pageSize=20&sortType=rank", nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("get JueJine url error", err)
 	}
 	req.Header.Set("Connection", "keep-alive")
 	req.Header.Set("Origin", "https://juejin.im")
@@ -142,18 +141,18 @@ func (spider Spider) GetJueJin() []map[string]interface{} {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("send request error", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("read response error", err)
 	}
 
 	var jobInfos model.JueJinResponse
 	if err := json.Unmarshal(body, &jobInfos); err != nil {
-		log.Fatal(err)
+		log.Println("GetJueJin unmarshal error ", err)
 	}
 
 	var allData []map[string]interface{}
@@ -169,7 +168,7 @@ func (spider Spider) GetJueJin() []map[string]interface{} {
 func (spider Spider) GetEleDuck() []map[string]interface{} {
 	req, err := http.NewRequest("GET", "https://svc.eleduck.com/api/v1/posts?category=5&tags[]=44&tags[]=10&page=1", nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetEleDuck new http error", err)
 	}
 	req.Header.Set("Connection", "keep-alive")
 	req.Header.Set("Accept", "application/json")
@@ -185,18 +184,18 @@ func (spider Spider) GetEleDuck() []map[string]interface{} {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetEleDuck send req error", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetEleDuck read response error", err)
 	}
 
 	var jobInfos model.EleDuckResponse
 	if err := json.Unmarshal(body, &jobInfos); err != nil {
-		log.Fatal(err)
+		log.Println("GetEleDuck unmarshal error", err)
 	}
 
 	var allData []map[string]interface{}

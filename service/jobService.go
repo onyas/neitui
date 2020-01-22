@@ -34,7 +34,7 @@ func (service *JobService) SaveData(jobInfos []map[string]interface{}) []model.J
 		mapstructure.Decode(jobInfo, &job)
 		_, err := DbEngine.Insert(&job)
 		if err != nil {
-			log.Println(err)
+			log.Println("save job info error", job.Id, job.Title, err)
 		}
 	}
 	return nil
