@@ -7,15 +7,20 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/onyas/geekNews/model"
 	"log"
+	"os"
 )
 
 var DbEngine *xorm.Engine
 
 func init() {
-	drivename := "postgres"
-	DsName := "postgres://postgres:root@127.0.0.1:5432/chat?sslmode=disable"
+	DsName := os.Getenv("DATABASE_URL")
+	if DsName == "" {
+		log.Fatal("$DSNAME must be set")
+	}
+
+	driveName := "postgres"
 	err := errors.New("")
-	DbEngine, err = xorm.NewEngine(drivename, DsName)
+	DbEngine, err = xorm.NewEngine(driveName, DsName)
 	if nil != err && "" != err.Error() {
 		log.Println(err.Error())
 	}

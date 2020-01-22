@@ -26,7 +26,7 @@
             config.isAjax = true;
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:8080/listJobInfos' + '?offset=' + offset + '&limit=' + size, //这里offset,size无作用，仅方便调试
+                url: '/listJobInfos' + '?offset=' + offset + '&limit=' + size, //这里offset,size无作用，仅方便调试
                 dataType: 'json',
                 success: function (reponse) {
                     config.isAjax = false;

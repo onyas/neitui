@@ -3,4 +3,16 @@ this is the API for geekNews
 
 ```
 go run main.go
+
+or
+
+go build -o bin/geekNews -v .
+heroku local
+```
+
+heroku config:set DSNAME=postgres://postgres:root@127.0.0.1:5432/chat?sslmode=disable
+
+list all the config
+```shell script
+heroku config
 ```
