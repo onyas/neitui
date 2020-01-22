@@ -13,7 +13,16 @@ heroku local
 heroku addons:create heroku-postgresql:hobby-dev
 heroku config
 ```
+
+#### 新增变量
+```shell script
+heroku config:set HTTP_AUTH=123
+```
+
 #### 发布
 ```shell script
 git push heroku master
 ```
+
+#### 定时任务
+在这里配置并触发 https://cron-job.org/
