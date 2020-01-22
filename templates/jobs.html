@@ -1,0 +1,68 @@
+<!doctype html>
+<head>
+    <meta name="viewport" content="initial-scale=1, user-scalable=0, minimal-ui" charset="UTF-8">
+    <title>内推岗位</title>
+    <link rel="stylesheet" href="/static/css/weui.css">
+    <link rel="stylesheet" href="/static/css/loadmore.css">
+
+</head>
+<body>
+<div class="content">
+    <div class="weui_panel weui_panel_access">
+        <div class="weui_panel_hd">岗位信息</div>
+        <div class="weui_panel_bd js-blog-list">
+
+        </div>
+    </div>
+    <!--加载更多按钮-->
+    <div class="js-load-more">加载更多</div>
+</div>
+<script src="/static/js/zepto.min.js"></script>
+<script src="/static/js/loadmore.js"></script>
+<script>
+    $(function () {
+
+        function listJobInfo(config, offset, size) {
+            config.isAjax = true;
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/listJobInfos' + '?offset=' + offset + '&limit=' + size, //这里offset,size无作用，仅方便调试
+                dataType: 'json',
+                success: function (reponse) {
+                    config.isAjax = false;
+                    var data = reponse.jobInfos;
+                    var currentSize = reponse.jobInfos.length;
+                    var sum = reponse.count;
+                    var result = '';
+                    if (sum - offset < size) {
+                        size = sum - offset;
+                    }
+
+                    for (var i = 0; i < currentSize; i++) {
+                        result += '<div class="weui_media_box">' +
+                            '<div class="weui_icon_aside"> <img src="' + data[i].authorAvatar + '" ></div>' +
+                            '<div class="weui_media_text"><a href="' + data[i].url + '" target="_blank"><h4 class="weui_media_title">' + data[i].title + '</h4></a>' +
+                            '<p class="weui_media_desc">'+ data[i].dataFrom+'     '+ data[i].author+'    '+ new Date(Date.parse(data[i].createdAt)).Format('yyyy-MM-dd hh:mm:ss')+'</p> </div>' +
+                            '</div>';
+                    }
+
+                    $('.js-blog-list').append(result);
+                    if ((offset + size) >= sum) {
+                        $(".js-load-more").hide();
+                        config.isEnd = true; /*停止滚动加载请求*/
+                        //提示没有了
+                    } else {
+                        $(".js-load-more").show();
+                    }
+                },
+                error: function (xhr, type) {
+                    alert('Ajax error!');
+                }
+            });
+        }
+
+        $.loadmore.get(listJobInfo, {scroll: true, size: 20});
+    });
+</script>
+</body>
+</html>
