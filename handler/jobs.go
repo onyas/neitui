@@ -171,7 +171,7 @@ func (spider Spider) GetJueJin() []map[string]interface{} {
 	var allData []map[string]interface{}
 	for _, jobInfo := range jobInfos.D.List {
 		allData = append(allData, map[string]interface{}{"authorAvatar": jobInfo.User.AvatarLarge, "title": strings.ReplaceAll(jobInfo.Content, "0x00", ""),
-			"url": jobInfo.ObjectId, "author": jobInfo.User.Username, "createdAt": jobInfo.CreateAt,
+			"url": "https://juejin.im/pin/" + jobInfo.ObjectId, "author": jobInfo.User.Username, "createdAt": jobInfo.CreateAt,
 			"attachMent": strings.Join(jobInfo.Pictures, ","),
 			"jobId":      jobInfo.ObjectId, "dataFrom": "JueJin"})
 	}
