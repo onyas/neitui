@@ -1,4 +1,4 @@
-module github.com/onyas/geekNews
+module github.com/onyas/neitui
 
 go 1.13
 

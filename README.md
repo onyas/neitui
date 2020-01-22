@@ -1,12 +1,12 @@
 # neitui
-this is the API for geekNews
+this is the API for neitui
 
 ```
 go run main.go
 
 or
 
-go build -o bin/geekNews -v .
+go build -o bin/neitui -v .
 heroku local
 ```
 
