@@ -14,5 +14,6 @@ heroku config:set DSNAME=postgres://postgres:root@127.0.0.1:5432/chat?sslmode=di
 
 list all the config
 ```shell script
+heroku addons:create heroku-postgresql:hobby-dev
 heroku config
 ```
