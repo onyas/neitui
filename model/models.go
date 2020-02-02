@@ -12,7 +12,7 @@ type JobInfo struct {
 	Title        string    `xorm:"varchar(1000)" form:"title" json:"title"`
 	Url          string    `xorm:"varchar(100)" form:"url" json:"url,omitempty"`
 	Author       string    `xorm:"varchar(50)" form:"author" json:"author,omitempty"`
-	AuthorAvatar string    `xorm:"varchar(100)" form:"authoravatar" json:"authorAvatar,omitempty"`
+	AuthorAvatar string    `xorm:"varchar(150)" form:"authoravatar" json:"authorAvatar,omitempty"`
 	DataFrom     string    `xorm:"varchar(50) unique(uindex_jobid)" form:"datafrom" json:"dataFrom,omitempty"`
 	AttachMent   string    `xorm:"varchar(1000)" form:"attachMent" json:"attachMent"`
 	CreatedAt    time.Time `xorm:"created" form:"createdAt" json:"createdAt"`
